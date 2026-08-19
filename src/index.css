@@ -1,1 +1,142 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-cobalt-50: #edf2fe;
+  --color-cobalt-100: #dce6fd;
+  --color-cobalt-200: #b9ccfb;
+  --color-cobalt-300: #8fabf7;
+  --color-cobalt-400: #5f82f0;
+  --color-cobalt-500: #3d63e8;
+  --color-cobalt-600: #2b4ed6;
+  --color-cobalt-700: #223daa;
+  --color-cobalt-800: #1e3487;
+  --color-cobalt-900: #1b2c6b;
+  --color-cobalt-950: #101a40;
+
+  --color-ink-50: #f5f7fb;
+  --color-ink-100: #e9edf6;
+  --color-ink-200: #d3daea;
+  --color-ink-300: #a9b4cf;
+  --color-ink-400: #7b89ab;
+  --color-ink-500: #5a688c;
+  --color-ink-600: #465273;
+  --color-ink-700: #39425c;
+  --color-ink-800: #232a3d;
+  --color-ink-900: #161b2c;
+  --color-ink-925: #10141f;
+  --color-ink-950: #0b0e18;
+
+  --animate-fade-up: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.4s ease both;
+  --animate-pop: pop-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-right: slide-right 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-down: slide-down 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float: float-y 6s ease-in-out infinite;
+  --animate-float-slow: float-y 9s ease-in-out infinite;
+  --animate-grow-x: grow-x 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-shimmer: shimmer 2.4s linear infinite;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes shimmer {
+  from { background-position: -400px 0; }
+  to { background-position: 400px 0; }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink-50 text-ink-900 font-sans antialiased dark:bg-ink-950 dark:text-ink-100;
+  font-feature-settings: "cv05", "cv11";
+}
+
+::selection {
+  background: var(--color-cobalt-500);
+  color: #fff;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink-300) transparent;
+}
+.dark * {
+  scrollbar-color: var(--color-ink-700) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: var(--color-ink-300); border-radius: 8px; }
+.dark *::-webkit-scrollbar-thumb { background: var(--color-ink-700); }
+
+@layer components {
+  .panel {
+    @apply bg-white dark:bg-ink-900 ring-1 ring-ink-900/8 dark:ring-white/10 rounded-xl shadow-[0_1px_2px_rgba(16,26,64,0.05)];
+  }
+  .input-base {
+    @apply w-full rounded-lg bg-white dark:bg-ink-925 ring-1 ring-ink-300/70 dark:ring-white/12 px-3.5 py-2.5 text-[15px] text-ink-900 dark:text-ink-100 placeholder:text-ink-400 outline-none transition-shadow focus:ring-2 focus:ring-cobalt-500/70 focus:ring-offset-0;
+  }
+  .lbl {
+    @apply block text-[13px] font-semibold text-ink-600 dark:text-ink-300 mb-1.5;
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(43, 78, 214, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(43, 78, 214, 0.06) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+  .dark .grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(143, 171, 247, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(143, 171, 247, 0.05) 1px, transparent 1px);
+  }
+  .letter-paper {
+    @apply bg-white text-[#1c2438] shadow-[0_24px_60px_-12px_rgba(16,26,64,0.35)];
+  }
+}
+
+@media print {
+  body { background: #fff !important; }
+  body *:not(.print-root):not(.print-root *) { visibility: hidden; }
+  .print-root {
+    visibility: visible;
+    position: absolute !important;
+    inset: 0;
+    width: 100%;
+    max-height: none !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+}
